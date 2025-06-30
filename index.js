@@ -11,6 +11,25 @@ const tutorials = [
   'what is JSONP?'
 ];
 
-const titleCased = () => {
-  return tutorials
+const specialWords = [
+  'API', 'OO', 'NaN', 'JSONP', 'Web', 'StopPropagation', 'PreventDefault'
+];
+
+function titleCased() {
+  return tutorials.map(tutorial => {
+    return tutorial
+      .split(' ')
+      .map(word => {
+        // Remove punctuation for matching
+        let baseWord = word.replace(/[^\w]/g, '');
+        let punctuation = word.match(/[^\w]$/) ? word.match(/[^\w]$/)[0] : '';
+        // Find the special word with correct casing
+        let special = specialWords.find(sw => sw.toLowerCase() === baseWord.toLowerCase());
+        if (special) {
+          return special + punctuation;
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(' ');
+  });
 }
